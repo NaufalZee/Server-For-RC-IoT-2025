@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    image: naufalzaidan/server_iot-revisi-backend:latest
+    container_name: backend-container
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb+srv://naufalzaidan:Theviking260202@cluster0.ad6ydcl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - PORT=3000
+      - JWT_SECRET=rahasia_super_aman
+    networks:
+      - my-network
+
+  frontend:
+    image: naufalzaidan/server_iot-revisi-frontend:latest
+    container_name: frontend-container
+    ports:
+      - "8080:80"
+    environment:
+      - REACT_APP_API_URL=http://backend:3000
+    depends_on:
+      - backend
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
